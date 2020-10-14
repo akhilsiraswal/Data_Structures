@@ -2,11 +2,11 @@
 #include <stdlib.h>
 struct Node
 {
-    int data;
+    char data;
     struct Node *next;
 } *top = NULL;
 
-void push(int x)
+void push(char x)
 {
     struct Node *t;
     t = (struct Node *)malloc(sizeof(struct Node));
@@ -24,7 +24,7 @@ void push(int x)
 
 int pop()
 {
-    int x = -1;
+    char x = -1;
     struct Node *t;
     if (top == NULL)
         printf("Stack is Empty\n");
@@ -51,12 +51,33 @@ void Display()
     printf("\n");
 }
 
+int isBalanced(char *exp)
+{
+    int i;
+    for (i = 0; exp[i] != '\0'; i++)
+    {
+        if (exp[i] == '(')
+            push(exp[i]);
+        else if (exp[i] == ')')
+        {
+            if (top == NULL)
+                return 0;
+            pop();
+        }
+    }
+
+    if (top == NULL)
+        return 1;
+    else
+    {
+        return 0;
+    }
+}
+
 int main()
 {
-    push(10);
-    push(20);
-    push(30);
-    Display();
-    printf("  %d ", pop());
+    char *exp = "((a+b*(c-d))";
+    printf("%d", isBalanced(exp));
+
     return 0;
 }
