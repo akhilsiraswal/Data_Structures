@@ -57,6 +57,58 @@ void Inorder(struct Node *p)
         Inorder(p->rchild);
     }
 }
+
+void LevelOrder(struct Node *root)
+{
+    struct Queue q;
+    create(&q, 100);
+
+    printf("%d ", root->data);
+    enqueue(&q, root);
+
+    while (!isEmpty(q))
+    {
+        root = dequeue(&q);
+        if (root->lchild)
+        {
+            printf("%d ", root->lchild->data);
+            enqueue(&q, root->lchild);
+        }
+
+        if (root->rchild)
+        {
+            printf("%d ", root->rchild->data);
+            enqueue(&q, root->rchild);
+        }
+    }
+}
+
+int count(struct Node *root)
+{
+    if (root)
+    {
+        return count(root->lchild) + count(root->rchild) + 1;
+    }
+    return 0;
+}
+
+int height(struct Node *root)
+{
+    int x = 0, y = 0;
+    if (root == 0)
+        return 0;
+
+    x = height(root->lchild);
+    y = height(root->rchild);
+
+    if (x > y)
+        return x + 1;
+    else
+    {
+        return y + 1;
+    }
+}
+
 void Postorder(struct Node *p)
 {
     if (p)
@@ -69,9 +121,11 @@ void Postorder(struct Node *p)
 int main()
 {
     Treecreate();
-    Preorder(root);
-    printf("\nPost Order ");
-    Postorder(root);
+
+    LevelOrder(root);
+    // Preorder(root);
+    // printf("\nPost Order ");
+    // Postorder(root);
     return 0;
 }
 
